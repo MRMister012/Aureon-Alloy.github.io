@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aureon Alloy | SenaTIC</title>
+    <title>Aureon Alloy</title>
     <link rel="icon" href="Assets/IMG/Logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Assets/css/Index.css">
+    <link rel="stylesheet" href="Assets/CSS/Index.css">
     <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
 </head>
 <!--
@@ -31,10 +31,12 @@ Solo yo y Dios sabemos como funciona
         <!-- Menú de Navegación -->
         <nav>
             <ul class="nav-menu">
+                <!-- Botón Simple -->
                 <li class="nav-item active">
                     <a href="Index.html" class="nav-link">Inicio</a>
                 </li>
 
+                <!-- Botón con Desplegable  -->
                 <li class="nav-item has-dropdown">
                     <button type="button" class="nav-link dropdown-toggle">
                         <span>Servicios</span>
@@ -43,8 +45,8 @@ Solo yo y Dios sabemos como funciona
 
                     <ul class="dropdown-menu">
                         <li><a href="#proceso" class="dropdown-link">Desarrollo Web & Mobile</a></li>
-                        <li><a href="#proceso" class="dropdown-link">Mantenimiento de Hardware</a></li>
-                        <li><a href="#proceso" class="dropdown-link">Soporte de Software</a></li>
+                        <li><a href="" class="dropdown-link">Mantenimiento de Hardware</a></li>
+                        <li><a href="" class="dropdown-link">Soporte de Software</a></li>
                     </ul>
                 </li>
 
@@ -55,7 +57,7 @@ Solo yo y Dios sabemos como funciona
                     </button>
 
                     <ul class="dropdown-menu">
-                        <li><a href="#portafolio" class="dropdown-link">Bitácoras SENA</a></li>
+                        <li><a href="" class="dropdown-link">Bitácoras SENA</a></li>
                         <li><a href="#portafolio" class="dropdown-link">Proyectos</a></li>
                     </ul>
                 </li>
@@ -71,6 +73,7 @@ Solo yo y Dios sabemos como funciona
                         <li><a href="#nosotros" class="dropdown-link">Misión y Visión</a></li>
                     </ul>
                 </li>
+
             </ul>
         </nav>
 
@@ -80,6 +83,7 @@ Solo yo y Dios sabemos como funciona
 
             <div class="divider"></div>
 
+            <!-- Cápsula de ayuda -->
             <a href="#contacto" class="help-pill">
                 <span>¿Cómo podemos ayudarte?</span>
                 <i class="bx bx-light-bulb"></i>
@@ -89,6 +93,8 @@ Solo yo y Dios sabemos como funciona
 
             <div class="lang-selector">
                 <span class="lang-active">ES <i class="bx bx-chevron-down"></i></span>
+
+
             </div>
         </div>
     </header>
@@ -215,7 +221,7 @@ Solo yo y Dios sabemos como funciona
             </div>
         </section>
 
-        <!-- 6. Contacto Configurado -->
+        <!-- 6. Contacto -->
         <section class="section contact" id="contacto">
             <div class="section-inner contact-grid">
                 <div class="contact-copy">
@@ -225,12 +231,11 @@ Solo yo y Dios sabemos como funciona
                     <a href="#nombre" class="btn btn-primary">Iniciar mi proyecto <i class="bx bx-arrow-right-stroke"></i></a>
                 </div>
 
-                <!-- Formulario funcional conectado a Web3Forms -->
-                <form class="form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
-                    <!-- Clave pública de Web3Forms -->
+                <form class="form" id="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
                     <input type="hidden" name="access_key" value="fb3d9143-e59a-4e93-9a18-28a8f5226d7b">
                     <input type="hidden" name="subject" value="Nuevo contacto desde Aureon Alloy">
-                    
+                    <input type="hidden" name="from_name" value="Sitio web Aureon Alloy">
+                    <input type="hidden" name="name" id="full-name">
                     <div class="form-row">
                         <label for="nombre">Nombre <b>*</b></label>
                         <input class="field" id="nombre" name="nombre" type="text" autocomplete="given-name" required>
@@ -255,17 +260,18 @@ Solo yo y Dios sabemos como funciona
                         <label for="tipo">¿Qué necesitas? <b>*</b></label>
                         <select class="field" id="tipo" name="tipo" required>
                             <option value="">Selecciona una opción</option>
-                            <option value="Desarrollo web o móvil">Desarrollo web o móvil</option>
-                            <option value="Mantenimiento de hardware">Mantenimiento de hardware</option>
-                            <option value="Soporte de software">Soporte de software</option>
-                            <option value="Otro">Otro</option>
+                            <option>Desarrollo web o móvil</option>
+                            <option>Mantenimiento de hardware</option>
+                            <option>Soporte de software</option>
+                            <option>Otro</option>
                         </select>
                         <span class="error"></span>
                     </div>
                     <div class="form-row">
                         <label for="mensaje">Mensaje</label>
-                        <textarea class="field" id="mensaje" name="mensaje" placeholder="Cuéntanos brevemente tu idea"></textarea>
+                        <textarea class="field" id="mensaje" name="message" placeholder="Cuéntanos brevemente tu idea"></textarea>
                     </div>
+                    <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none">
                     <button type="submit" class="btn btn-primary">Enviar</button>
                     <p class="form-status" id="form-status" role="status"></p>
                 </form>
@@ -276,8 +282,8 @@ Solo yo y Dios sabemos como funciona
     <!-- Datos de contacto -->
     <section class="data-strip" aria-label="Datos de contacto">
         <div class="data-grid">
-            <div class="data-item"><i class="bx bx-envelope"></i><div><strong>Correo</strong><span>aureonalloy@gmail.com</span></div></div>
-            <div class="data-item"><i class="bx bx-phone"></i><div><strong>Teléfono</strong><span>+57 302 4076361</span></div></div>
+            <div class="data-item"><i class="bx bx-envelope"></i><div><strong>Correo</strong><span>contacto@aureonalloy.com</span></div></div>
+            <div class="data-item"><i class="bx bx-phone"></i><div><strong>Teléfono</strong><span>+57 300 000 0000</span></div></div>
             <div class="data-item"><i class="bx bx-map"></i><div><strong>Ubicación</strong><span>Bogotá, Colombia</span></div></div>
             <div class="data-item"><i class="bx bx-time"></i><div><strong>Horario</strong><span>Lunes a viernes, 8:00 a. m. a 5:00 p. m.</span></div></div>
         </div>

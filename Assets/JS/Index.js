@@ -18,10 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.dropdown-link').forEach(l =>
         l.addEventListener('click', () => dropdownItems.forEach(i => i.classList.remove('open'))));
 
-    initMiniCalendar();
-    initQuotes();
-    initForm();
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Cada parte va aislada: si una falla, las demás siguen funcionando
+    [initMiniCalendar, initQuotes, initForm].forEach(fn => {
+        try { fn(); } catch (err) { console.error(`Error en ${fn.name}:`, err); }
+    });
+    const year = document.getElementById('year');
+    if (year) year.textContent = new Date().getFullYear();
 });
 
 /* ---------- Calendario de muestra (portafolio) ---------- */
@@ -69,7 +71,8 @@ function initQuotes() {
     restart();
 }
 
-/* ---------- Formulario de contacto ---------- */
+/* ---------- Formulario de contacto (Web3Forms) ---------- */
+
 function initForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
@@ -83,8 +86,11 @@ function initForm() {
         tipo: v => v ? '' : 'Selecciona una opción.'
     };
 
-    form.addEventListener('submit', (e) => {
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log('[Contacto] Enviando formulario...');
         let valid = true;
         Object.keys(rules).forEach(name => {
             const field = form.elements[name];
@@ -93,13 +99,44 @@ function initForm() {
             field.closest('.form-row').querySelector('.error').textContent = msg;
             if (msg && valid) { field.focus(); valid = false; }
         });
-        if (!valid) { status.className = 'form-status'; status.textContent = ''; return; }
+        if (!valid) {
+            status.className = 'form-status bad';
+            status.textContent = 'Revisa los campos marcados en rojo.';
+            return;
+        }
 
-        // TODO: conectar con un backend o servicio (Formspree, EmailJS, etc.)
-        const data = Object.fromEntries(new FormData(form));
-        console.log('Datos del formulario:', data);
-        form.reset();
-        status.className = 'form-status ok';
-        status.textContent = 'Mensaje enviado. Te contactaremos pronto.';
+        // Web3Forms espera un campo "name": lo armamos con nombre y apellido
+        document.getElementById('full-name').value =
+            `${form.elements['nombre'].value.trim()} ${form.elements['apellido'].value.trim()}`;
+
+        const payload = Object.fromEntries(new FormData(form));
+        payload.subject = `Nuevo contacto desde Aureon Alloy: ${payload.tipo}`;
+        if (!payload.message.trim()) payload.message = '(Sin mensaje)';
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+        status.className = 'form-status';
+        status.textContent = '';
+
+        try {
+            const res = await fetch(form.action, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await res.json();
+            if (!res.ok || !result.success) throw new Error(result.message || 'Error al enviar');
+
+            form.reset();
+            status.className = 'form-status ok';
+            status.textContent = 'Mensaje enviado. Te contactaremos pronto.';
+        } catch (err) {
+            console.error('Web3Forms:', err);
+            status.className = 'form-status bad';
+            status.textContent = 'No pudimos enviar el mensaje. Revisa tu conexión e inténtalo de nuevo.';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Enviar';
+        }
     });
 }

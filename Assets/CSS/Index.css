@@ -418,6 +418,8 @@ textarea.field { border-radius: 18px; resize: vertical; min-height: 96px; }
 .error { font-size: 12px; color: #ff8d8d; min-height: 0; }
 .form-status { font-size: 14px; text-align: center; }
 .form-status.ok { color: #8fd36a; }
+.form-status.bad { color: #ff8d8d; }
+.form .btn:disabled { opacity: .6; cursor: wait; transform: none; }
 .form .btn { justify-content: center; width: 100%; }
 
 /* Datos + footer */
